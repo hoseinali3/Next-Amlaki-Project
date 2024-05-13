@@ -35,7 +35,7 @@ function HomeCard({
                 <span className="">
                     <i className="fa fa-key card__icon"></i>
                 </span>
-                <p className="card__text">{price.toLocaleString()} میلیون تومان</p>
+                <p className="card__text">{price} میلیون تومان</p>
             </div>
 
             <Link href={`/homes/${id}`} className="btn btn-brown btn-card">

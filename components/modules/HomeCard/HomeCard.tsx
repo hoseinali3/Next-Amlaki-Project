@@ -1,4 +1,5 @@
-import React from 'react'
+
+import React, { useEffect, useState } from 'react'
 import HomeCardPropsType from './HomeCard.Type'
 import Link from 'next/link'
 
@@ -11,7 +12,11 @@ function HomeCard({
     title
 }: HomeCardPropsType) {
 
- 
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
     return (
         <div className="card">
             <img src={img} alt="House 6" className="card__img" />
@@ -35,7 +40,7 @@ function HomeCard({
                 <span className="">
                     <i className="fa fa-key card__icon"></i>
                 </span>
-                <p className="card__text">{price} میلیون تومان</p>
+                <p className="card__text">{isClient && price.toLocaleString()} میلیون تومان</p>
             </div>
 
             <Link href={`/homes/${id}`} className="btn btn-brown btn-card">

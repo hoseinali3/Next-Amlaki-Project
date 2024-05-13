@@ -1,3 +1,4 @@
+
 import HomeCard from '@/components/modules/HomeCard/HomeCard'
 import React from 'react'
 import db from '@/data/db.json'

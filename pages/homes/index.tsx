@@ -8,6 +8,7 @@ function Homes() {
   const [itemsPerPage, setItemsPerPage] = useState<HomeCardPropsType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
+  const [sortValue, setSortValue] = useState('');
   const [paginationNumbers, setpaginationNumbers] = useState<number[]>();
 
   const itemCount: number = 6;
@@ -48,6 +49,37 @@ function Homes() {
     changeItemsPerPage(tempItems);
   }
 
+  const sortingHandler = (
+    val: string,
+    datas: HomeCardPropsType[],
+    changeItemsPerPage: React.Dispatch<React.SetStateAction<HomeCardPropsType[]>>) => {
+
+    let sortTemp = null;
+
+    switch (val) {
+      case 'price':
+        sortTemp = [...datas].sort((a, b) => a.price - b.price);
+        changeItemsPerPage(sortTemp)
+        break;
+      case 'room-count':
+         sortTemp = [...datas].sort((a, b) => a.roomCount - b.roomCount);
+        changeItemsPerPage(sortTemp)
+        break;
+      case 'size':
+         sortTemp = [...datas].sort((a, b) => a.meterage - b.meterage);
+        changeItemsPerPage(sortTemp)
+        break;
+
+      default:
+        changeItemsPerPage([...datas])
+        break;
+    }
+  }
+
+  useEffect(() => {
+    sortingHandler(sortValue, mainDatas, setItemsPerPage)
+  }, [sortValue])
+
   useEffect(() => {
     searchItemHandler(
       mainDatas,
@@ -72,16 +104,16 @@ function Homes() {
     <div className="home-section" id="houses">
       <div className="home-filter-search">
         <div className="home-filter">
-          <select name="" id="">
-            <option value="" selected>انتخاب کنید</option>
-            <option value="">بر اساس قیمت</option>
-            <option value="">بر اساس تعداد اتاق</option>
-            <option value="">بر اساس ادرس</option>
-            <option value="">بر اساس اندازه</option>
+          <select onChange={e => setSortValue(e.target.value)} defaultValue={sortValue} value={sortValue} name="" id="">
+            <option value="-1" selected>انتخاب کنید</option>
+            <option value="price">بر اساس قیمت</option>
+            <option value="room-count">بر اساس تعداد اتاق</option>
+            <option value="size">بر اساس اندازه</option>
           </select>
         </div>
         <div className="home-search">
-          <input onChange={e => setSearchValue(e.target.value)} value={searchValue} type="text" placeholder="جستجو کنید" />
+          <input onChange={e => setSearchValue(e.target.value)}
+            value={searchValue} type="text" placeholder="جستجو کنید" />
         </div>
       </div>
       <div className="homes">

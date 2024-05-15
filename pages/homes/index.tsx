@@ -6,6 +6,7 @@ function Homes() {
 
   const [mainDatas, setMainDatas] = useState<HomeCardPropsType[]>(db.homes);
   const [itemsPerPage, setItemsPerPage] = useState<HomeCardPropsType[]>([]);
+  const [sortedTempItems, setSortedTempItems] = useState<HomeCardPropsType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
   const [sortValue, setSortValue] = useState('');
@@ -62,11 +63,11 @@ function Homes() {
         changeItemsPerPage(sortTemp)
         break;
       case 'room-count':
-         sortTemp = [...datas].sort((a, b) => a.roomCount - b.roomCount);
+        sortTemp = [...datas].sort((a, b) => a.roomCount - b.roomCount);
         changeItemsPerPage(sortTemp)
         break;
       case 'size':
-         sortTemp = [...datas].sort((a, b) => a.meterage - b.meterage);
+        sortTemp = [...datas].sort((a, b) => a.meterage - b.meterage);
         changeItemsPerPage(sortTemp)
         break;
 
@@ -74,11 +75,23 @@ function Homes() {
         changeItemsPerPage([...datas])
         break;
     }
+
+
   }
 
   useEffect(() => {
-    sortingHandler(sortValue, mainDatas, setItemsPerPage)
+    sortingHandler(sortValue, mainDatas, setSortedTempItems)
+
   }, [sortValue])
+
+  useEffect(() => {
+    pageinationItemsCalculator(
+      sortedTempItems,
+      itemCount,
+      currentPage,
+      setItemsPerPage
+    )
+  }, [sortedTempItems])
 
   useEffect(() => {
     searchItemHandler(
@@ -96,6 +109,9 @@ function Homes() {
       currentPage,
       setItemsPerPage
     )
+
+    setSortValue('-1');
+  
 
   }, [currentPage])
 
